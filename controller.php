@@ -27,7 +27,7 @@ $db = new Database();
               <td>'.$row['email'].'</td>
               <td>'.$row['phone'].'</td>
               <td>
-              <a href="#" class="btn btn-success infoBtn" id="'.$row['id'].'"> <i class="fa fa-file text-white"></i> View</a>
+              <a href="#" class="btn btn-success infoBtn" id="'.$row['id'].'"> <i class="fa fa-user text-white"></i> View</a>
                 <a href="#"  class="btn btn-info editBtn" data-toggle="modal" data-target="#editUserModal" id="'.$row['id'].'">Edit</a>
                 <a href="#"   class="btn btn-danger deleteBtn" id="'.$row['id'].'">Delete</a>
               </td>
@@ -79,7 +79,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'delete'){
 // view a user method
 
 if(isset($_POST['action']) && $_POST['action'] == 'viewUser'){
-    $data = $db->getUser($_POST['id']);
+    $view_id = $_POST['view_id'];
+    $data = $db->getUserById($view_id);
     echo json_encode($data);
 }
 

@@ -130,6 +130,41 @@
         </div>
     </div>
 </div>
+
+<!-- View  User Modal -->
+<div class="modal fade" id="viewUserModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">View  User Details</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="forId" >User Id No: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="userId"></span></label>           
+              </div>
+              <div class="form-group">
+              <label for="forId" >User Id No: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="userId"></span></label>
+                <label for="fullName" >Full Name: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewFullName"></span></label>
+                
+              </div>
+              <div class="form-group">
+                <label for="email">Email:<span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewEmail"></span></label>
+                
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewPhone"></span></label>
+                
+              </div>
+        </div>
+        
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
@@ -264,6 +299,7 @@
   // delete user
   $(document).on('click', '.deleteBtn', function(e){
     e.preventDefault();
+    var tr = $(this).closest('tr');
     var del_id = $(this).attr('id');
     console.log(del_id);
     Swal.fire({
@@ -281,12 +317,20 @@
           type: 'POST',
           data: {del_id:del_id, action:"delete"},
           success: function(response) {
-            console.log(response);
+            // console.log(response);
+            
             Swal.fire(
               'Deleted!',
-              'User has been deleted.',
-             'success'
-            )
+              'User has been deleted Successfully.',
+             'success',
+             15000
+            );
+            tr.css('background-color', '#ff6666');
+            setTimeout(function(){
+              
+              tr.remove();
+            }, 15000);
+
             showAllUsers();
           },
           error: function(xhr, status, error) {
@@ -303,6 +347,28 @@
 }
   });
   
+  });
+
+  // View User Details
+  $(document).on('click', '.infoBtn', function(e){
+    e.preventDefault();
+    view_id = $(this).attr('id');
+    $.ajax({
+      url: 'controller.php',
+      type: 'POST',
+      data: {view_id:view_id, action:"viewUser"},
+      success: function(response) {
+        var data = JSON.parse(response);
+        $('#viewUserModal').modal('show');
+        $('#userId').html(data.id);
+        $('#viewFullName').html(data.fullname);
+        $('#viewEmail').html(data.email);
+        $('#viewPhone').html(data.phone);
+      },
+      error: function(xhr, status, error) {
+        console.log(error);
+      }
+    });
   });
   // end jquery ajax dom ready function
 });
