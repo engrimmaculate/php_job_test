@@ -46,7 +46,8 @@
     </div>
     <div class="col-lg-6">
       <button class="btn btn-success float-right m-1" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-user-plus fa-lg"></i> Add User</button>
-      <a href="controller.php?export=excel" class="btn btn-primary float-right m-1"><i class="fa fa-file-excel-o fa-lg"></i> Export to CSV</a>
+      <a href="controller.php?export=excel" class="btn btn-primary float-right m-1"><i class="fa fa-file-excel-o fa-lg"></i> Excel</a>
+      <a href="controller.php?export=pdf" class="btn btn-danger float-right m-1"><i class="fa fa-file-pdf-o fa-lg"></i> PDF</a>
     </div>
   </div>
   <hr class="m-1">
@@ -122,7 +123,9 @@
               <input type="text" class="form-control" name="phone" id="Phone" placeholder="Enter Phone">
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-success" name="update"  id="update">Edit User</button>
+              <div classs="col-lg-12">
+                <button type="button" class="btn btn-success lg-12" name="update"  id="update">Update User</button>
+              </div>
             </div>
           </form>
         </div>
@@ -329,6 +332,7 @@
         Swal.fire({
           title: 'User Details !',
           type: 'info',
+          icon: 'success',
           html: '<div class="row">'+
                     '<div class="col-md-12">'+
                     '<label for="fullName"><strong>User ID:</strong> </label>'+

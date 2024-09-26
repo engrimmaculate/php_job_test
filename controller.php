@@ -113,6 +113,46 @@ if(!empty($_GET['export']) && $_GET['export'] == 'excel'){
     echo '</table>';
     exit;
 }
+
+
+// export data to pdf file
+
+if(!empty($_GET['export']) && $_GET['export'] == 'pdf'){
+    $data = $db->read();
+    require_once('dir/tcpdf/tcpdf.php');
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('My Team');
+    $pdf->SetTitle('Users Data');
+    $pdf->SetSubject('Users Data Export');
+    $pdf->SetKeywords('TCPDF, PDF, Users Data');
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    $pdf->SetFont('helvetica', '', 10);
+    $pdf->AddPage();
+    $pdf->writeHTML('<h1>Users Data</h1>');
+    $pdf->writeHTML('<table border="1">');
+    $pdf->writeHTML('<tr>');
+    $pdf->writeHTML('<th>ID</th>');
+    $pdf->writeHTML('<th>FullName</th>');
+    $pdf->writeHTML('<th>Email</th>');
+    $pdf->writeHTML('<th>Phone</th>');
+    $pdf->writeHTML('</tr>');
+    foreach ($data as $row) {
+        $pdf->writeHTML('<tr>');
+        $pdf->writeHTML('<td>'.$row['id'].'</td>');
+        $pdf->writeHTML('<td>'.$row['fullname'].'</td>');
+        $pdf->writeHTML('<td>'.$row['email'].'</td>');
+        $pdf->writeHTML('<td>'.$row['phone'].'</td>');
+        $pdf->writeHTML('</tr>');
+    }
+    $pdf->writeHTML('</table>');
+    $pdf->Output('users_data.pdf', 'I');
+    exit;
+}
 // close the database connection
 // close the connection object after the request is complete
 $obj = null;

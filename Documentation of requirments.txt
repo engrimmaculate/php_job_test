@@ -1,0 +1,8 @@
+1. Bootstrap 5 => For Designing the CRUD App
+2. PHP OOP     => For Server Side Processing (MVC Architecture Design Pattern)
+3. PDO-MYSQL 	=> PDO For Database Interface & MySQL as Database
+4. Ajax		=> For Sending Request to the Server for Processing Form Data.
+5. DataTable	=>For Paginating, Sorting, and Live Search on the table
+6. SweetAlert2	=> For Displaying Nice Success or Failure Alert
+7. Fontawsome 	=> For Icons
+8. tcpdf => export data into pdf
