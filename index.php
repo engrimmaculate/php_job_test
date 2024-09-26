@@ -46,7 +46,7 @@
     </div>
     <div class="col-lg-6">
       <button class="btn btn-success float-right m-1" data-toggle="modal" data-target="#addUserModal"><i class="fa fa-user-plus fa-lg"></i> Add User</button>
-      <button class="btn btn-primary float-right m-1" onclick="exportToCSV()"><i class="fa fa-file-excel-o fa-lg"></i> Export to CSV</button>
+      <a href="controller.php?export=excel" class="btn btn-primary float-right m-1"><i class="fa fa-file-excel-o fa-lg"></i> Export to CSV</a>
     </div>
   </div>
   <hr class="m-1">
@@ -131,40 +131,7 @@
     </div>
 </div>
 
-<!-- View  User Modal -->
-<div class="modal fade" id="viewUserModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">View  User Details</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-            <div class="form-group">
-              <label for="forId" >User Id No: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="userId"></span></label>           
-              </div>
-              <div class="form-group">
-              <label for="forId" >User Id No: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="userId"></span></label>
-                <label for="fullName" >Full Name: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewFullName"></span></label>
-                
-              </div>
-              <div class="form-group">
-                <label for="email">Email:<span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewEmail"></span></label>
-                
-              </div>
-              <div class="form-group">
-                <label for="phone">Phone: <span class="mt-2 mb-2 ml-1 text-success font-weight-bold" id="viewPhone"></span></label>
-                
-              </div>
-        </div>
-        
-        </div>
-    </div>
-</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
@@ -359,11 +326,37 @@
       data: {view_id:view_id, action:"viewUser"},
       success: function(response) {
         var data = JSON.parse(response);
-        $('#viewUserModal').modal('show');
-        $('#userId').html(data.id);
-        $('#viewFullName').html(data.fullname);
-        $('#viewEmail').html(data.email);
-        $('#viewPhone').html(data.phone);
+        Swal.fire({
+          title: 'User Details !',
+          type: 'info',
+          html: '<div class="row">'+
+                    '<div class="col-md-12">'+
+                    '<label for="fullName"><strong>User ID:</strong> </label>'+
+                    '<span id="viewFullName">'+data.id+'</span>'+
+                    '</div>'+
+                  '</div>'+
+                    '<div class="row">'+
+                      '<div class="col-md-12">'+
+                      '<label for="fullName"><strong>Full Name:</strong> </label>'+
+                      '<span id="viewFullName">'+data.fullname+'</span>'+
+                      '</div>'+
+                      '</div>'+
+                    '<div class="row">'+
+                    '<div class="col-md-12">'+
+                    '<label for="email"><strong>Email:</strong> </label>'+
+                    '<span id="viewEmail">'+data.email+'</span>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="row">'+
+                    '<div class="col-md-12">'+
+                    '<label for="phone"><strong>Phone:</strong> </label>'+
+                    '<span id="viewPhone">'+data.phone+'</span>'+
+                    '</div>'+
+                  '</div>',
+          showCancelButton: true,
+          confirmButtonText: 'Close'
+        });
+        
       },
       error: function(xhr, status, error) {
         console.log(error);

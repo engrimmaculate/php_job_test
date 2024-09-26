@@ -34,7 +34,7 @@ public function read() {
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $row){
-        $data[]=$results;
+        $data[]=$row;
     }
     
     return $data;

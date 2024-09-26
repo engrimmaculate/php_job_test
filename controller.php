@@ -20,7 +20,7 @@ $db = new Database();
         </thead>
         <tbody>';
         // loop through the data and display it in the table
-         foreach ($data[0] as $row) {
+         foreach ($data as $row) {
             $output .= '<tr>
               <td>'.$row['id'].'</td>
               <td>'.$row['fullname'].'</td>
@@ -84,6 +84,35 @@ if(isset($_POST['action']) && $_POST['action'] == 'viewUser'){
     echo json_encode($data);
 }
 
+
+// export data to csv file
+
+if(!empty($_GET['export']) && $_GET['export'] == 'excel'){
+    $data = $db->read();
+    $filename = 'users_data.xls';
+    header("Content-Type: application/xls");
+    header("Content-Disposition: attachment; filename=$filename");
+    header("pragma: no-cache");
+    header("Expires: 0");
+    
+    echo '<table border="1">';
+    echo '<tr>';
+    echo '<th>ID</th>';
+    echo '<th>FullName</th>';
+    echo '<th>Email</th>';
+    echo '<th>Phone</th>';
+    echo '</tr>';
+    foreach ($data as $row) {
+        echo '<tr>';
+        echo '<td>'.$row['id'].'</td>';
+        echo '<td>'.$row['fullname'].'</td>';
+        echo '<td>'.$row['email'].'</td>';
+        echo '<td>'.$row['phone'].'</td>';
+        echo '</tr>';
+    }
+    echo '</table>';
+    exit;
+}
 // close the database connection
 // close the connection object after the request is complete
 $obj = null;
